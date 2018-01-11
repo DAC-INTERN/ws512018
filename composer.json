@@ -11,7 +11,8 @@
         "jwage/purl": "^0.0.7",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "paquettg/php-html-parser": "^1.7"
+        "paquettg/php-html-parser": "^1.7",
+        "chrisboulton/php-resque": "1.2.x"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
