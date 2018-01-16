@@ -6,6 +6,7 @@ use App\Url;
 use Illuminate\Console\Command;
 use JC\HttpClient\JCRequest;
 use PHPHtmlParser\Dom;
+use Purl\Url as UrlParser;
 
 class Crawl extends Command
 {
@@ -46,59 +47,109 @@ class Crawl extends Command
        $url = $this->argument('url');
 
         // create data for main url
-        $data = $this->loadUrl($url);
-        Url::createUrl($url, $data['title'], $data['description']);
-
-        // create data for sub urls
-        $urls = $this->getUrlsFromUrl($url);
-        foreach ($urls as $url) {
-            $data = $this->loadUrl($url);
+        $this->info("Crawl the main url");
+        if($data = $this->loadUrl($url)){
             Url::createUrl($url, $data['title'], $data['description']);
         }
+
+        // create data for sub urls
+        $this->info("Crawl the sub urls");
+        $urls = $this->getUrlsFromUrl($url);
+        foreach ($urls as $url) {
+            if($data = $this->loadUrl($url)){
+                Url::createUrl($url, $data['title'], $data['description']);
+            }
+        }
+
+        $this->info("The operation is done");
 
         return 0;
     }
 
     public function loadUrl($url)
     {
-        $response = JCRequest::get($url);
+        $response = JCRequest::get($url, [], [], [
+            'connect_timeout' => 2,
+            'timeout' => 2
+        ]);
 
-        $dom = new Dom;
-        $dom->load($response->body());
+        if($response->success() && $dom = $this->loadHTML($response->body())){
+            try{
+                $title = $dom->find('title')->innerHtml;
+                $description = '';
 
-        $title = $dom->find('title')->innerHtml;
-        $description = '';
+                foreach ($dom->find('meta') as $des) {
+                    if (trim($des->getAttribute('name')) == 'description') {
+                        $description = $des->getAttribute('content');
+                        break;
+                    }
+                }
 
-        foreach ($dom->find('meta') as $des) {
-            if (trim($des->getAttribute('name')) == 'description') {
-                $description = $des->getAttribute('content');
-                break;
+                $this->info("Load url with title $title and description $description");
+                return ['title' => $title, 'description' => $description];
+            }
+            catch (\Exception $exception){
+                $this->warn($exception->getMessage());
             }
         }
 
-        return ['title' => $title, 'description' => $description];
+        return false;
     }
 
     public function getUrlsFromUrl($url)
     {
-        $pUrl = new \Purl\Url($url);
-
-        $response = JCRequest::get($url);
-        $dom = new Dom;
-        $dom->load($response->body());
-
-        $anchors = $dom->find('a');
+        $response = JCRequest::get($url, [], [], [
+            'connect_timeout' => 2,
+            'timeout' => 2
+        ]);
         $urls = [];
 
-        foreach ($anchors as $anchor) {
-            $href = $anchor->getAttribute('href');
-            if (strpos($href, 'http') !== false) {
-                $urls[] = $href;
-            } else {
-                $urls[] = $pUrl->scheme . '://' . $pUrl->host . $anchor->getAttribute('href');
+        if($response->success() && $dom = $this->loadHTML($response->body())){
+            $anchors = $dom->find('a');
+
+            foreach ($anchors as $anchor) {
+                $href = $anchor->getAttribute('href');
+                if (strpos($href, 'http') !== false) {
+                    $urls[] = $href;
+                } else {
+                    if($fixedUrl = $this->fixURLScheme($url, $anchor)){
+                        $urls[] = $fixedUrl;
+                    }
+                }
             }
         }
 
+        $this->warn("Found " . count($urls) . " sub urls");
         return $urls;
+    }
+
+    /**
+     * return Dom|bool
+     */
+    public function loadHTML($html){
+        $dom = new Dom;
+        try{
+            $dom->load($html);
+        }
+        catch (\Exception $exception){
+            $this->warn($exception->getMessage());
+            return false;
+        }
+
+        return $dom;
+    }
+
+    public function fixURLScheme($url, $anchor){
+        try{
+            if(strpos($url,'/') == 0){
+                $pUrl = new UrlParser($url);
+                return $pUrl->scheme . '://' . $pUrl->host . $anchor->getAttribute('href');
+            }
+        }
+        catch (\Exception $exception){
+            $this->warn($exception->getMessage());
+        }
+
+        return false;
     }
 }
