@@ -40,7 +40,10 @@ class Crawl extends Command
      */
     public function handle()
     {
-        $url = $this->argument('url');
+//       Resque::setBackend('localhost:3306');
+//       $args = ['name' => 'This is an arg'];
+//       Resque::enqueue('default', 'Crawl', $args);
+       $url = $this->argument('url');
 
         // create data for main url
         $data = $this->loadUrl($url);
