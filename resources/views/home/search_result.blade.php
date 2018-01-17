@@ -25,7 +25,7 @@
     </div>
     <div id="result" class="container">
         @if(empty($search))
-            <h5>Vui lòng nhập trường để tìm kiếm !!!</h5>
+            <h4>Vui lòng nhập trường để tìm kiếm !!!</h4>
         @elseif (Empty($urls))
             <p>Không tìm thấy kết quả trong tài liệu nào</p>
         @else
