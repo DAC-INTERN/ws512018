@@ -18,6 +18,6 @@ class HomeController extends Controller
         $urls = Url::on()->where('title', 'LIKE', "%$search%")
             ->orWhere('description', 'LIKE', "%$search%")
             ->get();
-        return view('home.search_result')->with('urls', $urls);
+        return view('home.search_result')->with('urls', $urls)->with('search',$search);
     }
 }

@@ -8,14 +8,13 @@
             src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/my_style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-
-
-    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<div class="app">
+<div class="app container-fluid">
     <a href="/"> <img src="/images/logo.png" alt=""> </a>
     <form id="search" method="post" action="<?php echo route('home.search')?>" >
         <?php echo csrf_field()?>
