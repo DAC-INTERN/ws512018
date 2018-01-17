@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Url;
+use function GuzzleHttp\Promise\queue;
 use Illuminate\Console\Command;
 use JC\HttpClient\JCRequest;
 use PHPHtmlParser\Dom;
@@ -41,10 +42,8 @@ class Crawl extends Command
      */
     public function handle()
     {
-//       Resque::setBackend('localhost:3306');
-//       $args = ['name' => 'This is an arg'];
-//       Resque::enqueue('default', 'Crawl', $args);
-       $url = $this->argument('url');
+
+        $url = $this->argument('url');
 
         // create data for main url
         $this->info("Crawl the main url");
