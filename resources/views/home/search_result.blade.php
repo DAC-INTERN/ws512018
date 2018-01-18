@@ -2,7 +2,6 @@
 <html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-
     <title>Trang chủ</title>
     <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -26,10 +25,18 @@
     <div id="result" class="container">
         @if(empty($search))
             <h4>Vui lòng nhập trường để tìm kiếm !!!</h4>
-        @elseif (Empty($urls))
-            <p>Không tìm thấy kết quả trong tài liệu nào</p>
+        @elseif (!($urls->count()))
+            <div class="no-search-result">
+                <p>Không tìm thấy <strong> <?php echo $search ?> </strong> trong bất kỳ tài liệu nào</p>
+                <p>Đề Xuất :</p>
+                <ul class="search-error">
+                    <li>Xin bạn chắc chắn rằng tất cả các từ đều đúng chính tả.</li>
+                    <li>Hãy thử những từ khóa khác.</li>
+                    <li>Hãy thử những từ khóa chung hơn.</li>
+                </ul>
+            </div>
         @else
-            <ul>
+            <ul class="list-result">
                 <?php foreach ($urls as $urlModel): ?>
                 <li>
                     <a href="{{$urlModel->url}}"><h5 class="title">{{ $urlModel->title }}</h5></a>
