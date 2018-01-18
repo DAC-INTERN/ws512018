@@ -15,9 +15,15 @@ class HomeController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('s');
+
         $urls = Url::on()->where('title', 'LIKE', "%$search%")
             ->orWhere('description', 'LIKE', "%$search%")
-            ->get();
+            ->paginate(10);
+
         return view('home.search_result')->with('urls', $urls)->with('search',$search);
+
     }
 }
+
+
+

@@ -25,7 +25,7 @@ input[type="submit"] {
     background-color: #f2f2f2;
     border: 1px solid #f2f2f2;
     border-radius: 1.5px;
-    color: #757575;
+    color: #686975;
     cursor: default;
     font-family: arial,sans-serif;
     font-size: 13px;
@@ -35,5 +35,11 @@ input[type="submit"] {
     min-width: 54px;
     padding: 0 16px;
     text-align: center;
+}
 
+#resultPage #pageNumber {
+    margin-left: 100px;
+    margin-right: 100px;
+    padding-left: 50px;
+    padding-right: 50px;
 }

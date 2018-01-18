@@ -16,7 +16,7 @@
 
 <div class="app container-fluid">
     <a href="/"> <img src="/images/logo.png" alt=""> </a>
-    <form id="search" method="post" action="<?php echo route('home.search')?>" >
+    <form id="search" method="post" action="<?php echo route('home.search'); ?>" >
         <?php echo csrf_field()?>
         <input type="text" name="s" id="s">
         <input type="submit" value="Tìm với google">
