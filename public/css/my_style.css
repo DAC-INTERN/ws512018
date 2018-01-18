@@ -37,3 +37,32 @@ input[type="submit"] {
     text-align: center;
 
 }
+
+@media (max-width: 680px){
+    img{
+        width: 30%;
+        margin-left: 180px;
+    }
+    input#s{
+        width: 300px;
+        margin-left: 100px;
+    }
+    input[type="submit"]{
+        width: 30%;
+        margin-left: 180px;
+    }
+}
+
+@media (max-width: 460px){
+    img {
+        margin-left: 130px;
+    }
+    input#s{
+        width: 250px;
+        margin-left: 55px;
+    }
+    input[type="submit"]{
+        width: 40%;
+        margin-left: 110px;
+    }
+}

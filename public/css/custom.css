@@ -1,29 +1,40 @@
+/*
+**Form Search include logo,input and button
+*/
 .form-search {
     background-color: #fbfffb;
     display: flex;
     height: 90px;
 }
+
+#search {
+    width: 100%;
+}
+
 .form-search a {
     width: 180px;
 }
+
 img {
     margin-left: 10px;
     margin-top: 25px;
-    width: 70%;
+    max-width: 70%;
     display: inline-block;
 }
+
 /*Css for textbox*/
-input#s{
+input#s {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
     border-width: 0.1px;
     border-color: #f2f2f2;
     height: 35px;
-    width: 450px;
+    width: 30%;
     display: inline-block;
     margin-left: 0;
     margin-top: 28px;
     padding: 15px;
 }
+
 /*Css for Search button*/
 input[type="submit"] {
     height: 38px;
@@ -32,26 +43,107 @@ input[type="submit"] {
     border-radius: 1.5px;
     color: #757575;
     cursor: default;
-    font-family: arial,sans-serif;
+    font-family: arial, sans-serif;
     font-size: 13px;
     font-weight: bold;
     margin-top: 30px;
-    margin-left: 10px;
+    margin-left: 15px;
     min-width: 54px;
     padding: 0 16px;
     text-align: center;
     display: inline-block;
 
 }
-li {
+
+.list-result li {
     list-style-type: none;
     padding: 10px;
 }
+
+/*Form result*/
 #result {
     margin-top: 10px;
-    margin-left: 115px;
+    margin-left: 97px;
 }
+
 #result h4 {
     margin-top: 60px;
     margin-left: 50px;
+    padding: 10px;
+}
+
+.no-search-result{
+    margin-left: 50px;
+    margin-top: 60px;
+}
+.no-search-result ul {
+    padding-left: 20px;
+}
+
+/*Responsive*/
+@media (max-width: 1300px) {
+    .form-search a {
+        margin-top: 5px;
+    }
+
+    #result {
+        margin-left: 90px;
+    }
+
+}
+
+@media (max-width: 980px) {
+    #result {
+        margin-left: 85px;
+    }
+}
+
+@media (max-width: 800px) {
+    .form-search a {
+        margin-top: 10px;
+    }
+
+    #result {
+        margin-left: 80px;
+    }
+}
+
+@media (max-width: 680px) {
+    #result {
+        margin-left: 75px;
+    }
+}
+
+@media (max-width: 580px) {
+    .form-search a {
+        margin-top: 0;
+    }
+
+    .form-search {
+        background-color: #fbfffb;
+        height: 120px;
+    }
+
+    .form-search img {
+        margin-top: 36px;
+    }
+
+    .form-search #s {
+        width: 80%;
+    }
+
+    input[type="submit"] {
+        margin-top: 10px;
+        margin-left: 0;
+    }
+
+    #result {
+        margin-left: 65px;
+    }
+}
+
+@media (max-width: 480px) {
+    #result {
+        margin-left: 55px;
+    }
 }
