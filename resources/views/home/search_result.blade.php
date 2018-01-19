@@ -45,10 +45,7 @@
                 </li>
                 <?php endforeach ?>
             </ul>
-{{--            {{$urls->render()}}--}}
-            {!! $urls->links() !!}
         @endif
-
     </div>
 
 </div>
