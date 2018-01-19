@@ -12,4 +12,5 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home.index');
-Route::post('/', 'HomeController@search')->name('home.search');
+Route::get('/search', 'HomeController@search')->name('home.search');
+

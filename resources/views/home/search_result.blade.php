@@ -16,7 +16,7 @@
 <div class="app container-fluid">
     <div class="form-search">
         <a href="/"> <img src="/images/logo.png" alt=""> </a>
-        <form id="search" method="post" action="<?php echo route('home.search')?>">
+        <form id="search" method="get" action="<?php echo route('home.search')?>">
             <?php echo csrf_field()?>
             <input type="text" name="s" id="s" value="<?php echo $search?>">
             <input type="submit" value="Tìm với google">
@@ -24,7 +24,7 @@
     </div>
 
     <div id="result" class="container">
-        @if(empty($search))
+        @if(!isset($urls))
             <h4>Vui lòng nhập trường để tìm kiếm !!!</h4>
         @elseif (!($urls->count()))
             <div class="no-search-result">
@@ -45,7 +45,8 @@
                 </li>
                 <?php endforeach ?>
             </ul>
-            {{$urls->links()}}
+{{--            {{$urls->render()}}--}}
+            {!! $urls->links() !!}
         @endif
 
     </div>
