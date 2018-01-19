@@ -22,6 +22,7 @@
             <input type="submit" value="Tìm với google">
         </form>
     </div>
+
     <div id="result" class="container">
         @if(empty($search))
             <h4>Vui lòng nhập trường để tìm kiếm !!!</h4>
@@ -44,8 +45,11 @@
                 </li>
                 <?php endforeach ?>
             </ul>
+            {{$urls->links()}}
         @endif
+
     </div>
+
 </div>
 
 </body>
