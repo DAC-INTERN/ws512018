@@ -156,7 +156,9 @@ ul.pagination {
 }
 
 h3{
-    margin-left: 160px;
+    margin-left: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     font-size: medium;
     color: #636b6f;
     font-weight: normal;

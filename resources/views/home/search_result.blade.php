@@ -22,11 +22,10 @@
             <input type="submit" value="Tìm với google">
         </form>
     </div>
-    <h3>{{$count}} kết quả tìm được</h3>
     <div id="result" class="container">
         @if(!isset($urls))
             <h4>Vui lòng nhập trường để tìm kiếm !!!</h4>
-        @elseif (!($urls->count()))
+        @elseif (!$count)
             <div class="no-search-result">
                 <p>Không tìm thấy <strong> <?php echo $search ?> </strong> trong bất kỳ tài liệu nào</p>
                 <p>Đề Xuất :</p>
@@ -37,6 +36,7 @@
                 </ul>
             </div>
         @else
+            <h3>{{$count}} kết quả tìm được</h3>
             <ul class="list-result">
                 <?php foreach ($urls as $urlModel): ?>
                 <li>
@@ -45,6 +45,7 @@
                 </li>
                 <?php endforeach ?>
             </ul>
+            {!! $urls->links() !!}
         @endif
     </div>
 
