@@ -22,7 +22,7 @@
             <input type="submit" value="Tìm với google">
         </form>
     </div>
-
+    <h3>{{$count}} kết quả tìm được</h3>
     <div id="result" class="container">
         @if(!isset($urls))
             <h4>Vui lòng nhập trường để tìm kiếm !!!</h4>

@@ -147,3 +147,17 @@ input[type="submit"] {
         margin-left: 55px;
     }
 }
+
+ul.pagination li {
+    padding: 10px;
+}
+ul.pagination {
+    margin-left: 470px;
+}
+
+h3{
+    margin-left: 160px;
+    font-size: medium;
+    color: #636b6f;
+    font-weight: normal;
+}
