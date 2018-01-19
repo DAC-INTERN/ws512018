@@ -75,11 +75,13 @@ class Crawl extends Command
         if($response->success() && $dom = $this->loadHTML($response->body())){
             try{
                 $title = $dom->find('title')->innerHtml;
+                $title = mb_convert_encoding($title, "UTF-8");
                 $description = '';
 
                 foreach ($dom->find('meta') as $des) {
                     if (trim($des->getAttribute('name')) == 'description') {
                         $description = $des->getAttribute('content');
+                        $description = mb_convert_encoding($description, "UTF-8");
                         break;
                     }
                 }

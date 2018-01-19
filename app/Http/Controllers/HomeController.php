@@ -18,6 +18,10 @@ class HomeController extends Controller
     {
         $search = $request->input('s');
 
+        if (empty($search) && !isset($request->query()['page'])) {
+            return view('home.search_result')->with('search', $search);
+        }
+
         $urls = Url::on()->where('title', 'LIKE', "%$search%")
             ->orWhere('description', 'LIKE', "%$search%")
             ->paginate(10);
@@ -26,9 +30,7 @@ class HomeController extends Controller
             ->orWhere('description', 'LIKE', "%$search%")
             ->count();
 
-        if (empty($search) && !isset($request->query()['page'])) {
-            return view('home.search_result')->with('search', $search);
-        }
+
         return view('home.search_result')->with('urls', $urls)->with('search', $search)->with('count', $count);
     }
 }
