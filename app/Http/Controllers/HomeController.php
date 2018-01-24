@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\String_Search;
 use App\Url;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -32,6 +33,20 @@ class HomeController extends Controller
             ->where('title', 'LIKE', "%$search%")
             ->orWhere('description', 'LIKE', "%$search%")
             ->count();
+
+
+        if(isset($request->query()['page'])){
+            $duplicate = true;
+            String_Search::create_table($search,$duplicate);
+            DB::table('StringSearch')
+                ->where('Search_String', $search)
+                ->where('duplicate', true)
+                ->delete();
+        }
+        else {
+            $duplicate = false;
+            String_Search::create_table($search,$duplicate);
+        }
 
         return view('home.search_result')->with('urls', $urls)->with('search', $search)->with('count', $count);
     }

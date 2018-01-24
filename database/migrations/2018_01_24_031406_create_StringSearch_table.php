@@ -15,7 +15,8 @@ class CreateStringSearchTable extends Migration
     {
         Schema::create('StringSearch', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('Search_String')->unique();
+            $table->string('Search_String');
+            $table->boolean('duplicate');
             $table->timestamps();
         });
     }
