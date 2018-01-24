@@ -6,6 +6,8 @@ use App\Url;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use DB;
+use Illuminate\Support\Facades\Input;
+
 
 class HomeController extends Controller
 {
@@ -24,12 +26,12 @@ class HomeController extends Controller
 
         $urls = Url::on()->where('title', 'LIKE', "%$search%")
             ->orWhere('description', 'LIKE', "%$search%")
-            ->paginate(10);
+            ->paginate(10)->appends(Input::except(['page','_token']));
 
-        $count = Url::on()->where('title', 'LIKE', "%$search%")
+        $count = DB::table('Url')->select(DB::raw('count(*) as count'))
+            ->where('title', 'LIKE', "%$search%")
             ->orWhere('description', 'LIKE', "%$search%")
             ->count();
-
 
         return view('home.search_result')->with('urls', $urls)->with('search', $search)->with('count', $count);
     }
