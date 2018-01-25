@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use DB;
 use Illuminate\Support\Facades\Input;
+use Excel;
 
 
 class HomeController extends Controller
@@ -27,7 +28,7 @@ class HomeController extends Controller
 
         $urls = Url::on()->where('title', 'LIKE', "%$search%")
             ->orWhere('description', 'LIKE', "%$search%")
-            ->paginate(10)->appends(Input::except(['page','_token']));
+            ->paginate(10)->appends(Input::except(['page', '_token']));
 
         $count = DB::table('Url')->select(DB::raw('count(*) as count'))
             ->where('title', 'LIKE', "%$search%")
@@ -35,21 +36,34 @@ class HomeController extends Controller
             ->count();
 
 
-        if(isset($request->query()['page'])){
+        if (isset($request->query()['page'])) {
             $duplicate = true;
-            String_Search::create_table($search,$duplicate);
+            String_Search::create_table($search, $duplicate);
             DB::table('StringSearch')
                 ->where('Search_String', $search)
                 ->where('duplicate', true)
                 ->delete();
-        }
-        else {
+        } else {
             $duplicate = false;
-            String_Search::create_table($search,$duplicate);
+            String_Search::create_table($search, $duplicate);
         }
 
         return view('home.search_result')->with('urls', $urls)->with('search', $search)->with('count', $count);
     }
+
+    public function exportExcel($type)
+    {
+        $data = DB::table('StringSearch')->where('created_at', '>', date('Y-m-d'))
+            ->get()->toArray();
+        $data = json_decode(json_encode($data), true);
+
+        return Excel::create('file_String_Search' . '_' . date('Y-m-d'), function ($excel) use ($data) {
+            $excel->sheet('mySheet', function ($sheet) use ($data) {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
+    }
+
 }
 
 
