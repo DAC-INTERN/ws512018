@@ -42,13 +42,16 @@ class Crawl extends Command
      */
     public function handle()
     {
-
         $url = $this->argument('url');
 
         // create data for main url
         $this->info("Crawl the main url");
         if($data = $this->loadUrl($url)){
-            Url::createUrl($url, $data['title'], $data['description']);
+
+            $nonAccentTitle = $this->utf8convert($data['title']);
+            $nonAccentDescription = $this->utf8convert($data['description']);
+
+            Url::createUrl($url, $data['title'], $data['description'],$nonAccentTitle,$nonAccentDescription);
         }
 
         // create data for sub urls
@@ -56,7 +59,14 @@ class Crawl extends Command
         $urls = $this->getUrlsFromUrl($url);
         foreach ($urls as $url) {
             if($data = $this->loadUrl($url)){
-                Url::createUrl($url, $data['title'], $data['description']);
+
+                $nonAccentTitles = $this->utf8convert($data['title']);
+                $nonAccentDescriptions = $this->utf8convert($data['description']);
+
+                if(!$this->isHTML($nonAccentTitles))
+                {
+                    Url::createUrl($url, $data['title'], $data['description'],$nonAccentTitles,$nonAccentDescriptions);
+                }
             }
         }
 
@@ -127,7 +137,8 @@ class Crawl extends Command
     /**
      * return Dom|bool
      */
-    public function loadHTML($html){
+    public function loadHTML($html)
+    {
         $dom = new Dom;
         try{
             $dom->load($html);
@@ -140,7 +151,8 @@ class Crawl extends Command
         return $dom;
     }
 
-    public function fixURLScheme($url, $anchor){
+    public function fixURLScheme($url, $anchor)
+    {
         try{
             if(strpos($url,'/') == 0){
                 $pUrl = new UrlParser($url);
@@ -153,12 +165,11 @@ class Crawl extends Command
 
         return false;
     }
-    function utf8convert($str) {
 
+    public function utf8convert($str) {
         if(!$str) return false;
 
         $utf8 = array(
-
             'a'=>'á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ|Á|À|Ả|Ã|Ạ|Ă|Ắ|Ặ|Ằ|Ẳ|Ẵ|Â|Ấ|Ầ|Ẩ|Ẫ|Ậ',
 
             'd'=>'đ|Đ',
@@ -172,12 +183,20 @@ class Crawl extends Command
             'u'=>'ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự|Ú|Ù|Ủ|Ũ|Ụ|Ư|Ứ|Ừ|Ử|Ữ|Ự',
 
             'y'=>'ý|ỳ|ỷ|ỹ|ỵ|Ý|Ỳ|Ỷ|Ỹ|Ỵ',
-
         );
 
         foreach($utf8 as $ascii=>$uni) $str = preg_replace("/($uni)/i",$ascii,$str);
 
         return $str;
 
+    }
+    public function isHTML($string){
+        if($string != strip_tags($string)){
+            // is HTML
+            return true;
+        }else{
+            // not HTML
+            return false;
+        }
     }
 }
