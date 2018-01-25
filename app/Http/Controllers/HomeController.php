@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Console\Commands\Crawl;
@@ -10,36 +9,37 @@ use App\Http\Requests;
 use DB;
 use Illuminate\Support\Facades\Input;
 use Excel;
-
-
 class HomeController extends Controller
 {
     public function index()
     {
         return view('home.index');
     }
-
     public function search(Request $request)
     {
         $search = $request->input('s');
         $nonAccentSearch = $this->utf8convert($search);
+        $timeStart = microtime(true);
 
         if (empty($search) && !isset($request->query()['page'])) {
             return view('home.search_result')->with('search', $search);
         }
-
         $urls = Url::on()->where('title', 'LIKE', "%$search%")
             ->orWhere('description', 'LIKE', "%$search%")
             ->orWhere('nonAccentTitle', 'LIKE', "%$nonAccentSearch%")
             ->orWhere('nonAccentDescription', 'LIKE', "%$nonAccentSearch%")
             ->paginate(10)->appends(Input::except(['page', '_token']));
-
         $count = DB::table('Url')->select(DB::raw('count(*) as count'))
             ->where('title', 'LIKE', "%$search%")
             ->orWhere('description', 'LIKE', "%$search%")
             ->orWhere('nonAccentTitle', 'LIKE', "%$nonAccentSearch%")
             ->orWhere('nonAccentDescription', 'LIKE', "%$nonAccentSearch%")
             ->count();
+
+        $diff = microtime(true) - $timeStart;
+        $sec = intval($diff);
+        $micro = round(($diff - $sec),4);
+
 
         if (isset($request->query()['page'])) {
             $duplicate = true;
@@ -52,8 +52,10 @@ class HomeController extends Controller
             $duplicate = false;
             String_Search::create_table($search, $duplicate);
         }
-
-        return view('home.search_result')->with('urls', $urls)->with('search', $search)->with('count', $count);
+        return view('home.search_result')->with('urls', $urls)
+            ->with('search', $search)
+            ->with('count', $count)
+            ->with('time',$micro);
     }
 
     public function utf8convert($str) {
@@ -88,15 +90,10 @@ class HomeController extends Controller
         $data = DB::table('StringSearch')->where('created_at', '>', date('Y-m-d'))
             ->get()->toArray();
         $data = json_decode(json_encode($data), true);
-
         return Excel::create('file_String_Search' . '_' . date('Y-m-d'), function ($excel) use ($data) {
             $excel->sheet('mySheet', function ($sheet) use ($data) {
                 $sheet->fromArray($data);
             });
         })->download($type);
     }
-
 }
-
-
-

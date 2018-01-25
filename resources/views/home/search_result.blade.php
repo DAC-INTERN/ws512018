@@ -36,7 +36,7 @@
                 </ul>
             </div>
         @else
-            <h3>{{$count}} kết quả tìm được</h3>
+            <h3>Có khoảng {{$count}} kết quả tìm được ( {{$time}} ms )</h3>
             <ul class="list-result">
                 <?php foreach ($urls as $urlModel): ?>
                 <li>
