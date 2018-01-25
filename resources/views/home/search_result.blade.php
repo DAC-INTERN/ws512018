@@ -25,7 +25,7 @@
     <div id="result" class="container">
         @if(!isset($urls))
             <h4>Vui lòng nhập trường để tìm kiếm !!!</h4>
-        @elseif (!$count)
+        @elseif (!$urls)
             <div class="no-search-result">
                 <p>Không tìm thấy <strong> <?php echo $search ?> </strong> trong bất kỳ tài liệu nào</p>
                 <p>Đề Xuất :</p>

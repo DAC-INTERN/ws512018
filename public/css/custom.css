@@ -79,13 +79,25 @@ input[type="submit"] {
 .no-search-result ul {
     padding-left: 20px;
 }
+
+/*Paginate*/
+ul.pagination {
+    margin-left: 570px;
+}
+
+/*search result*/
+h3{
+    margin-left: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: medium;
+    color: #636b6f;
+    font-weight: normal;
+
+}
 /*Responsive*/
 
 @media (max-width: 1900px) {
-    ul.pagination {
-        margin-left: 570px;
-    }
-
     ul.pagination li {
         padding: 10px;
     }
@@ -302,16 +314,10 @@ input[type="submit"] {
         margin-left: 55px;
     }
 
-}
-
-/*search result*/
-h3{
-    margin-left: 50px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: medium;
-    color: #636b6f;
-    font-weight: normal;
+    ul.pagination {
+        margin-left: 50px;
+    }
 
 }
+
 

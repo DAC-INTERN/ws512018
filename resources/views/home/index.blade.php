@@ -16,10 +16,10 @@
 
 <div class="app container-fluid">
     <a href="/"> <img src="/images/logo.png" alt=""> </a>
-    <form id="search" method="get" action="<?php echo route('home.search'); ?>" >
+    <form id="search" method="get" action="<?php echo route('home.search'); ?>">
 <!--        --><?php //echo csrf_field()?>
         <input type="text" name="s" id="s">
-        <input type="submit" value="Tìm với google">
+        <input type="submit" value="Tìm với google" >
     </form>
 </div>
 <script src="/js/custom.js"></script>
