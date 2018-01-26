@@ -8,7 +8,7 @@ class String_Search extends Model
 {
     protected $table = 'StringSearch';
 
-    public static function create_table($search,$duplicate)
+    public static function create_table($search, $duplicate)
     {
         $Model = new self();
         $Model->Search_String = $search;

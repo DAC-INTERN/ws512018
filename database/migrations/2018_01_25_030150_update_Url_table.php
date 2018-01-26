@@ -13,7 +13,7 @@ class UpdateUrlTable extends Migration
      */
     public function up()
     {
-        Schema::table('url',function ($t){
+        Schema::table('url', function ($t) {
             $t->string('nonAccentTitle');
             $t->text('nonAccentDescription');
         });
@@ -26,8 +26,8 @@ class UpdateUrlTable extends Migration
      */
     public function down()
     {
-        Schema::table('url',function ($t){
-            $t->dropColumn('nonAccentTitle','nonAccentDescription');
+        Schema::table('url', function ($t) {
+            $t->dropColumn('nonAccentTitle', 'nonAccentDescription');
         });
     }
 }

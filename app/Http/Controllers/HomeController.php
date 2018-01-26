@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Console\Commands\Crawl;
 use App\String_Search;
 use App\Url;
 use Illuminate\Http\Request;
@@ -31,7 +30,6 @@ class HomeController extends Controller
 
         if (Cache::has('result')) {
             if ($search == Cache::get('string')) {
-                $this->Save_String_search($request, $search);
 
                 $urls = Url::on()->where('title', 'LIKE', "%$search%")
                     ->orWhere('description', 'LIKE', "%$search%")
@@ -40,7 +38,7 @@ class HomeController extends Controller
                     ->paginate(10)->appends(Input::except(['page', '_token']));
 
                 $micro = $this->timeQuery($timeStart);
-
+                $this->Save_String_search($request, $search);
                 return view('home.search_result')->with('urls', $urls)
                     ->with('search', $search)->with('count', Cache::get('count'))
                     ->with('time', $micro);
@@ -92,7 +90,8 @@ class HomeController extends Controller
         }
     }
 
-    public  function timeQuery($timeStart){
+    public function timeQuery($timeStart)
+    {
         $diff = microtime(true) - $timeStart;
         $sec = intval($diff);
         $micro = round(($diff - $sec), 4);
