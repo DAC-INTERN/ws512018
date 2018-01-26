@@ -39,9 +39,11 @@ class HomeController extends Controller
                     ->orWhere('nonAccentDescription', 'LIKE', "%$nonAccentSearch%")
                     ->paginate(10)->appends(Input::except(['page', '_token']));
 
+                $micro = $this->timeQuery($timeStart);
+
                 return view('home.search_result')->with('urls', $urls)
                     ->with('search', $search)->with('count', Cache::get('count'))
-                    ->with('time', Cache::get('time'));
+                    ->with('time', $micro);
             } else {
 
                 $urls = Url::on()->where('title', 'LIKE', "%$search%")
@@ -57,20 +59,15 @@ class HomeController extends Controller
                     ->orWhere('nonAccentDescription', 'LIKE', "%$nonAccentSearch%")
                     ->count();
 
-                $diff = microtime(true) - $timeStart;
-                $sec = intval($diff);
-                $micro = round(($diff - $sec), 4);
-
                 $data = [
                     'string' => $search,
                     'result' => $urls,
                     'count' => $count,
-                    'time' => $micro,
                 ];
                 Cache::putMany($data, 1440);
 
+                $micro = $this->timeQuery($timeStart);
                 $this->Save_String_search($request, $search);
-
                 return view('home.search_result')->with('urls', $urls)
                     ->with('search', $search)->with('count', $count)->with('time', $micro);
 
@@ -93,6 +90,13 @@ class HomeController extends Controller
             $duplicate = false;
             String_Search::create_table($search, $duplicate);
         }
+    }
+
+    public  function timeQuery($timeStart){
+        $diff = microtime(true) - $timeStart;
+        $sec = intval($diff);
+        $micro = round(($diff - $sec), 4);
+        return $micro;
     }
 
     public function utf8convert($str)
