@@ -28,50 +28,39 @@ class HomeController extends Controller
             return view('home.search_result')->with('search', $search);
         }
 
-        if (Cache::has('result')) {
-            if ($search == Cache::get('string')) {
+        if (Cache::has('result') && $search == Cache::get('string')) {
 
-                $urls = Url::on()->where('title', 'LIKE', "%$search%")
-                    ->orWhere('description', 'LIKE', "%$search%")
-                    ->orWhere('nonAccentTitle', 'LIKE', "%$nonAccentSearch%")
-                    ->orWhere('nonAccentDescription', 'LIKE', "%$nonAccentSearch%")
-                    ->paginate(10)->appends(Input::except(['page', '_token']));
+            $urls = Url::on()->where('title', 'LIKE', "%$search%")
+                ->orWhere('description', 'LIKE', "%$search%")
+                ->orWhere('nonAccentTitle', 'LIKE', "%$nonAccentSearch%")
+                ->orWhere('nonAccentDescription', 'LIKE', "%$nonAccentSearch%")
+                ->paginate(10)->appends(Input::except(['page', '_token']));
 
-                $micro = $this->timeQuery($timeStart);
-                $this->Save_String_search($request, $search);
-                return view('home.search_result')->with('urls', $urls)
-                    ->with('search', $search)->with('count', Cache::get('count'))
-                    ->with('time', $micro);
-            } else {
+            $micro = $this->timeQuery($timeStart);
+            $this->Save_String_search($request, $search);
 
-                $urls = Url::on()->where('title', 'LIKE', "%$search%")
-                    ->orWhere('description', 'LIKE', "%$search%")
-                    ->orWhere('nonAccentTitle', 'LIKE', "%$nonAccentSearch%")
-                    ->orWhere('nonAccentDescription', 'LIKE', "%$nonAccentSearch%")
-                    ->paginate(10)->appends(Input::except(['page', '_token']));
+        } else {
+            $urls = Url::on()->where('title', 'LIKE', "%$search%")
+                ->orWhere('description', 'LIKE', "%$search%")
+                ->orWhere('nonAccentTitle', 'LIKE', "%$nonAccentSearch%")
+                ->orWhere('nonAccentDescription', 'LIKE', "%$nonAccentSearch%")
+                ->paginate(10)->appends(Input::except(['page', '_token']));
 
-                $count = DB::table('Url')->select(DB::raw('count(*) as count'))
-                    ->where('title', 'LIKE', "%$search%")
-                    ->orWhere('description', 'LIKE', "%$search%")
-                    ->orWhere('nonAccentTitle', 'LIKE', "%$nonAccentSearch%")
-                    ->orWhere('nonAccentDescription', 'LIKE', "%$nonAccentSearch%")
-                    ->count();
-
-                $data = [
-                    'string' => $search,
-                    'result' => $urls,
-                    'count' => $count,
-                ];
-                Cache::putMany($data, 1440);
-
-                $micro = $this->timeQuery($timeStart);
-                $this->Save_String_search($request, $search);
-                return view('home.search_result')->with('urls', $urls)
-                    ->with('search', $search)->with('count', $count)->with('time', $micro);
-
-            }
+            $micro = $this->timeQuery($timeStart);
+            $this->Save_String_search($request, $search);
         }
 
+        $count = $urls->total();
+
+        $data = [
+            'string' => $search,
+            'result' => $urls,
+            'count' => $count,
+        ];
+        Cache::putMany($data, 1440);
+
+        return view('home.search_result')->with('urls', $urls)
+            ->with('search', $search)->with('count', $count)->with('time', $micro);
     }
 
     public function Save_String_search($request, $search)
