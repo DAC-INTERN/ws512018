@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Url;
+use function GuzzleHttp\Promise\queue;
 use Illuminate\Console\Command;
 use JC\HttpClient\JCRequest;
 use PHPHtmlParser\Dom;
@@ -41,23 +42,30 @@ class Crawl extends Command
      */
     public function handle()
     {
-//       Resque::setBackend('localhost:3306');
-//       $args = ['name' => 'This is an arg'];
-//       Resque::enqueue('default', 'Crawl', $args);
-       $url = $this->argument('url');
+        $url = $this->argument('url');
 
         // create data for main url
         $this->info("Crawl the main url");
-        if($data = $this->loadUrl($url)){
-            Url::createUrl($url, $data['title'], $data['description']);
+        if ($data = $this->loadUrl($url)) {
+
+            $nonAccentTitle = $this->utf8convert($data['title']);
+            $nonAccentDescription = $this->utf8convert($data['description']);
+
+            Url::createUrl($url, $data['title'], $data['description'], $nonAccentTitle, $nonAccentDescription);
         }
 
         // create data for sub urls
         $this->info("Crawl the sub urls");
         $urls = $this->getUrlsFromUrl($url);
         foreach ($urls as $url) {
-            if($data = $this->loadUrl($url)){
-                Url::createUrl($url, $data['title'], $data['description']);
+            if ($data = $this->loadUrl($url)) {
+
+                $nonAccentTitles = $this->utf8convert($data['title']);
+                $nonAccentDescriptions = $this->utf8convert($data['description']);
+
+                if (!$this->isHTML($nonAccentTitles)) {
+                    Url::createUrl($url, $data['title'], $data['description'], $nonAccentTitles, $nonAccentDescriptions);
+                }
             }
         }
 
@@ -73,22 +81,23 @@ class Crawl extends Command
             'timeout' => 2
         ]);
 
-        if($response->success() && $dom = $this->loadHTML($response->body())){
-            try{
+        if ($response->success() && $dom = $this->loadHTML($response->body())) {
+            try {
                 $title = $dom->find('title')->innerHtml;
+                $title = html_entity_decode($title);
                 $description = '';
 
                 foreach ($dom->find('meta') as $des) {
                     if (trim($des->getAttribute('name')) == 'description') {
                         $description = $des->getAttribute('content');
+                        $description = html_entity_decode($description);
                         break;
                     }
                 }
 
                 $this->info("Load url with title $title and description $description");
                 return ['title' => $title, 'description' => $description];
-            }
-            catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 $this->warn($exception->getMessage());
             }
         }
@@ -104,7 +113,7 @@ class Crawl extends Command
         ]);
         $urls = [];
 
-        if($response->success() && $dom = $this->loadHTML($response->body())){
+        if ($response->success() && $dom = $this->loadHTML($response->body())) {
             $anchors = $dom->find('a');
 
             foreach ($anchors as $anchor) {
@@ -112,7 +121,7 @@ class Crawl extends Command
                 if (strpos($href, 'http') !== false) {
                     $urls[] = $href;
                 } else {
-                    if($fixedUrl = $this->fixURLScheme($url, $anchor)){
+                    if ($fixedUrl = $this->fixURLScheme($url, $anchor)) {
                         $urls[] = $fixedUrl;
                     }
                 }
@@ -126,12 +135,12 @@ class Crawl extends Command
     /**
      * return Dom|bool
      */
-    public function loadHTML($html){
+    public function loadHTML($html)
+    {
         $dom = new Dom;
-        try{
+        try {
             $dom->load($html);
-        }
-        catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $this->warn($exception->getMessage());
             return false;
         }
@@ -139,17 +148,54 @@ class Crawl extends Command
         return $dom;
     }
 
-    public function fixURLScheme($url, $anchor){
-        try{
-            if(strpos($url,'/') == 0){
+    public function fixURLScheme($url, $anchor)
+    {
+        try {
+            if (strpos($url, '/') == 0) {
                 $pUrl = new UrlParser($url);
                 return $pUrl->scheme . '://' . $pUrl->host . $anchor->getAttribute('href');
             }
-        }
-        catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $this->warn($exception->getMessage());
         }
 
         return false;
+    }
+
+    public function utf8convert($str)
+    {
+        if (!$str) return false;
+
+        $utf8 = array(
+            'a' => 'á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ|Á|À|Ả|Ã|Ạ|Ă|Ắ|Ặ|Ằ|Ẳ|Ẵ|Â|Ấ|Ầ|Ẩ|Ẫ|Ậ',
+
+            'd' => 'đ|Đ',
+
+            'e' => 'é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ|É|È|Ẻ|Ẽ|Ẹ|Ê|Ế|Ề|Ể|Ễ|Ệ',
+
+            'i' => 'í|ì|ỉ|ĩ|ị|Í|Ì|Ỉ|Ĩ|Ị',
+
+            'o' => 'ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ|Ó|Ò|Ỏ|Õ|Ọ|Ô|Ố|Ồ|Ổ|Ỗ|Ộ|Ơ|Ớ|Ờ|Ở|Ỡ|Ợ',
+
+            'u' => 'ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự|Ú|Ù|Ủ|Ũ|Ụ|Ư|Ứ|Ừ|Ử|Ữ|Ự',
+
+            'y' => 'ý|ỳ|ỷ|ỹ|ỵ|Ý|Ỳ|Ỷ|Ỹ|Ỵ',
+        );
+
+        foreach ($utf8 as $ascii => $uni) $str = preg_replace("/($uni)/i", $ascii, $str);
+
+        return $str;
+
+    }
+
+    public function isHTML($string)
+    {
+        if ($string != strip_tags($string)) {
+            // is HTML
+            return true;
+        } else {
+            // not HTML
+            return false;
+        }
     }
 }

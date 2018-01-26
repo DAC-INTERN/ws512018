@@ -1,0 +1,323 @@
+/*
+**Form Search include logo,input and button
+*/
+.form-search {
+    background-color: #fbfffb;
+    display: flex;
+    height: 90px;
+}
+
+#search {
+    width: 100%;
+}
+
+.form-search a {
+    width: 180px;
+}
+
+img {
+    margin-left: 10px;
+    margin-top: 25px;
+    max-width: 70%;
+    display: inline-block;
+}
+
+/*Css for textbox*/
+input#s {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
+    border-width: 0.1px;
+    border-color: #f2f2f2;
+    height: 35px;
+    width: 30%;
+    display: inline-block;
+    margin-left: 0;
+    margin-top: 28px;
+    padding: 15px;
+}
+
+/*Css for Search button*/
+input[type="submit"] {
+    height: 38px;
+    background-color: #f2f2f2;
+    border: 1px solid #f2f2f2;
+    border-radius: 1.5px;
+    color: #757575;
+    cursor: default;
+    font-family: arial, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-left: 15px;
+    min-width: 54px;
+    padding: 0 16px;
+    text-align: center;
+    display: inline-block;
+
+}
+
+.list-result li {
+    list-style-type: none;
+    padding: 10px;
+}
+
+/*Form result*/
+#result {
+    margin-top: 10px;
+    margin-left: 97px;
+}
+
+#result h4 {
+    margin-top: 60px;
+    margin-left: 50px;
+    padding: 10px;
+}
+
+.no-search-result{
+    margin-left: 50px;
+    margin-top: 60px;
+}
+.no-search-result ul {
+    padding-left: 20px;
+}
+
+/*Paginate*/
+ul.pagination {
+    margin-left: 570px;
+}
+
+/*search result*/
+h3{
+    margin-left: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: medium;
+    color: #636b6f;
+    font-weight: normal;
+
+}
+/*Responsive*/
+
+@media (max-width: 1900px) {
+    ul.pagination li {
+        padding: 10px;
+    }
+
+}
+
+@media (max-width: 1800px) {
+    ul.pagination {
+        margin-left: 540px;
+    }
+
+}
+
+@media (max-width: 1760px) {
+    ul.pagination {
+        margin-left: 510px;
+    }
+
+}
+
+@media (max-width: 1700px) {
+    ul.pagination {
+        margin-left: 480px;
+    }
+
+}
+
+@media (max-width: 1640px) {
+    ul.pagination {
+        margin-left: 450px;
+    }
+
+}
+
+@media (max-width: 1580px) {
+    ul.pagination {
+        margin-left: 420px;
+    }
+
+}
+
+@media (max-width: 1500px) {
+    ul.pagination {
+        margin-left: 390px;
+    }
+
+}
+
+@media (max-width: 1460px) {
+    ul.pagination {
+        margin-left: 360px;
+    }
+
+}
+
+@media (max-width: 1400px) {
+    ul.pagination {
+        margin-left: 330px;
+    }
+
+}
+
+@media (max-width: 1360px) {
+    ul.pagination {
+        margin-left: 320px;
+    }
+
+}
+
+@media (max-width: 1300px) {
+    .form-search a {
+        margin-top: 5px;
+    }
+
+    #result {
+        margin-left: 90px;
+    }
+
+    ul.pagination {
+        margin-left: 300px;
+    }
+
+}
+
+@media (max-width: 1300px) {
+    ul.pagination {
+        margin-left: 280px;
+    }
+}
+
+@media (max-width: 1100px) {
+    ul.pagination {
+        margin-left: 240px;
+    }
+
+}
+
+@media (max-width: 1000px) {
+    ul.pagination {
+        margin-left: 210px;
+    }
+}
+
+@media (max-width: 980px) {
+    #result {
+        margin-left: 85px;
+    }
+
+    ul.pagination {
+        margin-left: 200px;
+    }
+
+}
+
+@media (max-width: 900px) {
+    ul.pagination {
+        margin-left: 180px;
+    }
+}
+
+@media (max-width: 940px) {
+    ul.pagination {
+        margin-left: 160px;
+    }
+
+}
+
+@media (max-width: 840px) {
+    ul.pagination {
+        margin-left: 120px;
+    }
+
+}
+
+@media (max-width: 800px) {
+    .form-search a {
+        margin-top: 10px;
+    }
+
+    #result {
+        margin-left: 80px;
+    }
+
+    ul.pagination {
+        margin-left: 80px;
+    }
+
+}
+
+@media (max-width: 700px) {
+    ul.pagination li {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 680px) {
+    #result {
+        margin-left: 75px;
+    }
+
+}
+
+@media (max-width: 640px) {
+    ul.pagination {
+        margin-left: 70px;
+    }
+
+}
+
+@media (max-width: 600px) {
+    ul.pagination li {
+        padding: 6px;
+    }
+}
+
+@media (max-width: 580px) {
+    .form-search a {
+        margin-top: 0;
+    }
+
+    .form-search {
+        background-color: #fbfffb;
+        height: 120px;
+    }
+
+    .form-search img {
+        margin-top: 36px;
+    }
+
+    .form-search #s {
+        width: 80%;
+    }
+
+    input[type="submit"] {
+        margin-top: 10px;
+        margin-left: 0;
+    }
+
+    #result {
+        margin-left: 65px;
+    }
+
+}
+
+@media (max-width: 540px) {
+    ul.pagination li {
+        padding: 4px;
+    }
+
+}
+
+@media (max-width: 480px) {
+    #result {
+        margin-left: 55px;
+    }
+
+    ul.pagination {
+        margin-left: 50px;
+    }
+
+}
+
+

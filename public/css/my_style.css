@@ -1,0 +1,74 @@
+.app{
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 250px;
+}
+/*Css for Google image*/
+img {
+    margin-left: 90px;
+}
+/*Css for textbox*/
+input#s{
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
+    border-width: 0.1px;
+    border-color: #f2f2f2;
+    height: 35px;
+    width: 450px;
+    display: inline;
+    margin-left: 0;
+    margin-top: 5px;
+    padding: 15px;
+}
+/*Css for Search button*/
+input[type="submit"] {
+    height: 38px;
+    background-color: #f2f2f2;
+    border: 1px solid #f2f2f2;
+    border-radius: 1.5px;
+    color: #686975;
+    cursor: default;
+    font-family: arial,sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-left: 165px;
+    min-width: 54px;
+    padding: 0 16px;
+    text-align: center;
+}
+
+#resultPage #pageNumber {
+    margin-left: 100px;
+    margin-right: 100px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+@media (max-width: 680px){
+    img{
+        width: 30%;
+        margin-left: 180px;
+    }
+    input#s{
+        width: 300px;
+        margin-left: 100px;
+    }
+    input[type="submit"]{
+        width: 30%;
+        margin-left: 180px;
+    }
+}
+
+@media (max-width: 460px){
+    img {
+        margin-left: 130px;
+    }
+    input#s{
+        width: 250px;
+        margin-left: 55px;
+    }
+    input[type="submit"]{
+        width: 40%;
+        margin-left: 110px;
+    }
+}

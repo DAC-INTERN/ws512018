@@ -8,7 +8,7 @@ class Url extends Model
 {
     protected $table = 'url';
 
-    public static function createUrl($url, $title, $description)
+    public static function createUrl($url, $title, $description,$nonAccentTitle,$nonAccentDescription)
     {
         $urlModel = self::on()->where('hash', md5($url))->first();
         if(!$urlModel){
@@ -18,6 +18,8 @@ class Url extends Model
         $urlModel->url = $url;
         $urlModel->title = $title;
         $urlModel->description = $description;
+        $urlModel->nonAccentTitle = $nonAccentTitle;
+        $urlModel->nonAccentDescription = $nonAccentDescription;
         $urlModel->hash = md5($url);
         $urlModel->save();
     }
