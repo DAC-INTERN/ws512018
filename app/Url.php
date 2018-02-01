@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Input;
 
 class Url extends Model
 {
@@ -22,5 +23,15 @@ class Url extends Model
         $urlModel->nonAccentDescription = $nonAccentDescription;
         $urlModel->hash = md5($url);
         $urlModel->save();
+    }
+
+    public static function Url_query($search,$nonAccentSearch){
+
+        $urls = Url::on()->where('title', 'LIKE', "%$search%")
+            ->orWhere('description', 'LIKE', "%$search%")
+            ->orWhere('nonAccentTitle', 'LIKE', "%$nonAccentSearch%")
+            ->orWhere('nonAccentDescription', 'LIKE', "%$nonAccentSearch%")
+            ->paginate(10)->appends(Input::except(['page', '_token']));
+        return $urls;
     }
 }

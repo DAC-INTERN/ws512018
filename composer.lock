@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8c25285b2743aab0d666fb6e4eff886",
+    "content-hash": "4a4eeff9a4fb27d933a81f5cea637bd4",
     "packages": [
         {
             "name": "chrisboulton/php-resque",
@@ -1610,6 +1610,7 @@
                 "xls",
                 "xlsx"
             ],
+            "abandoned": "phpoffice/phpspreadsheet",
             "time": "2015-05-01T07:00:55+00:00"
         },
         {
@@ -3248,6 +3249,56 @@
             "time": "2016-01-20T08:20:44+00:00"
         },
         {
+            "name": "laravel/homestead",
+            "version": "v7.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/homestead.git",
+                "reference": "0d0082e8315fb4e9cbfe35bbdd7fe3113d41e1a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/0d0082e8315fb4e9cbfe35bbdd7fe3113d41e1a8",
+                "reference": "0d0082e8315fb4e9cbfe35bbdd7fe3113d41e1a8",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "symfony/console": "~3.3|~4.0",
+                "symfony/process": "~3.3|~4.0",
+                "symfony/yaml": "~3.3|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7 || ^6.0"
+            },
+            "bin": [
+                "bin/homestead"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Homestead\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "A virtual machine for web artisans.",
+            "time": "2017-12-03T15:18:55+00:00"
+        },
+        {
             "name": "mockery/mockery",
             "version": "1.0",
             "source": {
@@ -4667,6 +4718,64 @@
             ],
             "description": "Give thanks (in the form of a GitHub ⭐) to your fellow PHP package maintainers (not limited to Symfony components)!",
             "time": "2018-01-19T16:12:41+00:00"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v3.4.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "eab73b6c21d27ae4cd037c417618dfd4befb0bfe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/eab73b6c21d27ae4cd037c417618dfd4befb0bfe",
+                "reference": "eab73b6c21d27ae4cd037c417618dfd4befb0bfe",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8"
+            },
+            "conflict": {
+                "symfony/console": "<3.4"
+            },
+            "require-dev": {
+                "symfony/console": "~3.4|~4.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2018-01-21T19:05:02+00:00"
         },
         {
             "name": "theseer/tokenizer",
