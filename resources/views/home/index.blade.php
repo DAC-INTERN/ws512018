@@ -19,6 +19,7 @@
     <form id="search" method="get" action="<?php echo route('home.search'); ?>">
 <!--        --><?php //echo csrf_field()?>
         <input type="text" name="s" id="s">
+
         <input type="submit" value="Tìm với google" >
     </form>
 </div>

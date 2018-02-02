@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Http\Middleware\String_Middleware;
+use App\Http\Middleware\Predict_String;
 use App\Url;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -17,6 +18,9 @@ class HomeController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('s');
+        $predict = Predict_String::Predict_String($search);
+
+
         $nonAccentSearch = String_Middleware::utf8convert($search);
         $timeStart = microtime(true);
         if (empty($search) && !isset($request->query()['page'])) {
@@ -35,7 +39,8 @@ class HomeController extends Controller
         return view('home.search_result')->with('urls', $urls)
             ->with('search', Cache::get('string'))
             ->with('count', Cache::get('count'))
-            ->with('time', $micro);
+            ->with('time', $micro)
+            ->with('predict', $predict);
     }
     public function exportExcel($type)
     {

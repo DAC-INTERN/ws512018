@@ -21,6 +21,18 @@
             <input type="text" name="s" id="s" value="<?php echo $search?>">
             <input type="submit" value="Tìm với google">
         </form>
+        <div class="list_suggest">
+            <ul>
+                <?php foreach ($predict as $suggest): ?>
+                <?php foreach ($suggest as $suggests):?>
+                <li>{{$suggests}}</li>
+                <?php endforeach?>
+                <?php endforeach ?>
+            </ul>
+
+
+        </div>
+
     </div>
     <div id="result" class="container">
         @if(!isset($urls))
