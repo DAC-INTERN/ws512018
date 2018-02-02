@@ -83,6 +83,7 @@ input[type="submit"] {
 /*Paginate*/
 ul.pagination {
     margin-left: 570px;
+    margin-right: 100px;
 }
 
 /*search result*/
@@ -182,7 +183,7 @@ h3{
 
 }
 
-@media (max-width: 1300px) {
+@media (max-width: 1200px) {
     ul.pagination {
         margin-left: 280px;
     }
@@ -264,6 +265,7 @@ h3{
     ul.pagination {
         margin-left: 70px;
     }
+
 
 }
 

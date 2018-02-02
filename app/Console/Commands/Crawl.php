@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Url;
+use App\Http\Middleware\String_Middleware;
 use function GuzzleHttp\Promise\queue;
 use Illuminate\Console\Command;
 use JC\HttpClient\JCRequest;
@@ -48,8 +49,8 @@ class Crawl extends Command
         $this->info("Crawl the main url");
         if ($data = $this->loadUrl($url)) {
 
-            $nonAccentTitle = $this->utf8convert($data['title']);
-            $nonAccentDescription = $this->utf8convert($data['description']);
+            $nonAccentTitle = String_Middleware::utf8convert($data['title']);
+            $nonAccentDescription = String_Middleware::utf8convert($data['description']);
 
             Url::createUrl($url, $data['title'], $data['description'], $nonAccentTitle, $nonAccentDescription);
         }
@@ -60,11 +61,12 @@ class Crawl extends Command
         foreach ($urls as $url) {
             if ($data = $this->loadUrl($url)) {
 
-                $nonAccentTitles = $this->utf8convert($data['title']);
-                $nonAccentDescriptions = $this->utf8convert($data['description']);
+                $nonAccentTitles = String_Middleware::utf8convert($data['title']);
+                $nonAccentDescriptions = String_Middleware::utf8convert($data['description']);
 
                 if (!$this->isHTML($nonAccentTitles)) {
-                    Url::createUrl($url, $data['title'], $data['description'], $nonAccentTitles, $nonAccentDescriptions);
+                    Url::createUrl($url, $data['title'],
+                        $data['description'], $nonAccentTitles, $nonAccentDescriptions);
                 }
             }
         }
@@ -161,33 +163,7 @@ class Crawl extends Command
 
         return false;
     }
-
-    public function utf8convert($str)
-    {
-        if (!$str) return false;
-
-        $utf8 = array(
-            'a' => 'á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ|Á|À|Ả|Ã|Ạ|Ă|Ắ|Ặ|Ằ|Ẳ|Ẵ|Â|Ấ|Ầ|Ẩ|Ẫ|Ậ',
-
-            'd' => 'đ|Đ',
-
-            'e' => 'é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ|É|È|Ẻ|Ẽ|Ẹ|Ê|Ế|Ề|Ể|Ễ|Ệ',
-
-            'i' => 'í|ì|ỉ|ĩ|ị|Í|Ì|Ỉ|Ĩ|Ị',
-
-            'o' => 'ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ|Ó|Ò|Ỏ|Õ|Ọ|Ô|Ố|Ồ|Ổ|Ỗ|Ộ|Ơ|Ớ|Ờ|Ở|Ỡ|Ợ',
-
-            'u' => 'ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự|Ú|Ù|Ủ|Ũ|Ụ|Ư|Ứ|Ừ|Ử|Ữ|Ự',
-
-            'y' => 'ý|ỳ|ỷ|ỹ|ỵ|Ý|Ỳ|Ỷ|Ỹ|Ỵ',
-        );
-
-        foreach ($utf8 as $ascii => $uni) $str = preg_replace("/($uni)/i", $ascii, $str);
-
-        return $str;
-
-    }
-
+    
     public function isHTML($string)
     {
         if ($string != strip_tags($string)) {
