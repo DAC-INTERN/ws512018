@@ -24,7 +24,8 @@ class HomeController extends Controller
         $nonAccentSearch = String_Middleware::utf8convert($search);
         $timeStart = microtime(true);
         if (empty($search) && !isset($request->query()['page'])) {
-            return view('home.search_result')->with('search', $search);
+            return view('home.search_result')->with('search', $search)
+                ->with('predict', $predict);
         }
         $urls = Url::Url_query($search,$nonAccentSearch);
         if (Cache::has('result') && $search == Cache::get('string')) {

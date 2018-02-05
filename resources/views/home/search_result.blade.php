@@ -27,7 +27,7 @@
         <div class="list_suggest">
                 <?php foreach ($predict as $suggest): ?>
                 <?php foreach ($suggest as $suggests):?>
-                <a href="#">{{$suggests}}</a>
+                <a href="/search?s={{$search}}+{{$suggests}}">{{$suggests}}</a>
                 <?php endforeach?>
                 <?php endforeach ?>
         </div>
