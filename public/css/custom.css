@@ -322,8 +322,24 @@ h3{
 
 }
 
+/*Css for Predict Suggest*/
 .list_suggest a {
     margin-left: 50px;
 }
+
+.list_suggest{
+    padding: 15px 50px 15px 50px;
+}
+
+.SuggestText{
+    display: inline-block;
+}
+
+h6.SuggestText{
+    font-size: medium;
+    color: #636b6f;
+    font-weight: normal;
+}
+
 
 

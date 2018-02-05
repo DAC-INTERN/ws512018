@@ -26,11 +26,14 @@
     </div>
     <div id="result" class="container">
         <div class="list_suggest">
-                <?php foreach ($predict as $suggest): ?>
-                <?php foreach ($suggest as $suggests):?>
-                <a href="/search?s={{$search}}+{{$suggests}}">{{$suggests}}</a>
-                <?php endforeach?>
-                <?php endforeach ?>
+                @if(!empty($predict))
+                    <h6 class="SuggestText">Có phải bạn muốn tìm : </h6>
+                    <?php foreach ($predict as $suggest): ?>
+                        <?php foreach ($suggest as $suggests):?>
+                            <a href="/search?s={{$search}}+{{$suggests}}" class="SuggestText">{{$search}} {{$suggests}}</a>
+                        <?php endforeach?>
+                    <?php endforeach ?>
+                @endif
         </div>
         @if(!isset($urls))
             <h4>Vui lòng nhập trường để tìm kiếm !!!</h4>
