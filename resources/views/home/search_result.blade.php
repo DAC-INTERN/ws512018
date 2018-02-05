@@ -21,20 +21,16 @@
             <input type="text" name="s" id="s" value="<?php echo $search?>">
             <input type="submit" value="Tìm với google">
         </form>
-        <div class="list_suggest">
-            <ul>
-                <?php foreach ($predict as $suggest): ?>
-                <?php foreach ($suggest as $suggests):?>
-                <li>{{$suggests}}</li>
-                <?php endforeach?>
-                <?php endforeach ?>
-            </ul>
-
-
-        </div>
 
     </div>
     <div id="result" class="container">
+        <div class="list_suggest">
+                <?php foreach ($predict as $suggest): ?>
+                <?php foreach ($suggest as $suggests):?>
+                <a href="#">{{$suggests}}</a>
+                <?php endforeach?>
+                <?php endforeach ?>
+        </div>
         @if(!isset($urls))
             <h4>Vui lòng nhập trường để tìm kiếm !!!</h4>
         @elseif (!$count)

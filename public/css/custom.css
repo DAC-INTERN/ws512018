@@ -322,12 +322,9 @@ h3{
 
 }
 
-.list_suggest > ul{
-    margin-right: 350px;
-    text-align: center;
-}
-.list_suggest > ul > li{
-    display: inline-block;
+.list_suggest a {
+    margin-left: 50px;
+    padding: 2px;
 }
 
 
