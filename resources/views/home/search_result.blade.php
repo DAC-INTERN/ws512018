@@ -18,7 +18,8 @@
         <a href="/"> <img src="/images/logo.png" alt=""> </a>
         <form id="search" method="get" action="<?php echo route('home.search')?>">
             <?php echo csrf_field()?>
-            <input type="text" name="s" id="s" value="<?php echo $search?>">
+            <input type="text" name="s" id="s" value="<?php echo $search?>"
+                   v-on:change="predict">
             <input type="submit" value="Tìm với google">
         </form>
 
@@ -58,6 +59,6 @@
     </div>
 
 </div>
-
+<script src="/js/custompage.js"></script>
 </body>
 </html>

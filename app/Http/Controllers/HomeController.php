@@ -1,9 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 use App\Http\Middleware\String_Middleware;
-use App\Http\Middleware\Predict_String;
+use App\Helper\Predict_String;
 use App\Url;
 use Illuminate\Http\Request;
+use App\Helper\String_Helper;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -18,8 +19,7 @@ class HomeController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('s');
-        $predict = Predict_String::Predict_String($search);
-
+        $predict = String_Helper::Predict_String($search);
 
         $nonAccentSearch = String_Middleware::utf8convert($search);
         $timeStart = microtime(true);

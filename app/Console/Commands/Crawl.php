@@ -163,7 +163,7 @@ class Crawl extends Command
 
         return false;
     }
-    
+
     public function isHTML($string)
     {
         if ($string != strip_tags($string)) {

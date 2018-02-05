@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class String_Search extends Model
 {
@@ -16,4 +17,9 @@ class String_Search extends Model
         $Model->save();
     }
 
+    public static function String_Search_query()
+    {
+        $predictString = DB::table('StringSearch')->select('Search_String')->get();
+        return $predictString;
+    }
 }
