@@ -17,6 +17,9 @@ class CreateStringSearchTable extends Migration
             $table->increments('id');
             $table->string('Search_String');
             $table->boolean('duplicate');
+            $table->string('browser');
+            $table->string('device');
+            $table->string('IP');
             $table->timestamps();
         });
     }
