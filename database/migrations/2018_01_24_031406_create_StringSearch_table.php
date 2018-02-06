@@ -18,8 +18,10 @@ class CreateStringSearchTable extends Migration
             $table->string('Search_String');
             $table->boolean('duplicate');
             $table->string('browser');
+            $table->string('operating_system');
             $table->string('device');
             $table->string('IP');
+            $table->string('location');
             $table->timestamps();
         });
     }

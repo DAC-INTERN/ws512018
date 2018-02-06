@@ -21,7 +21,8 @@ class String_Search extends Model
         $Model->browser = self::browser_detect();
         $Model->operating_system = self::os_detect();
         $Model->device = self::device_detect();
-        $Model->IP= self::ip_detect();
+        $Model->IP = self::ip_detect();
+        $Model->location = self::location_detect();
         $Model->save();
     }
 
@@ -35,13 +36,26 @@ class String_Search extends Model
     public static function os_detect()
     {
         $os= new Os();
-        return $os->getName();
+        return $os->getName() . ' ' . $os->getVersion();
     }
 
     public static function browser_detect()
     {
         $browser = new Browser();
-        return $browser->getName();
+        return $browser->getName() . ' ' . $browser->getVersion();
+    }
+
+    public static function location_detect()
+    {
+        $country = '';
+        $IP = $_SERVER['REMOTE_ADDR'];
+        if (!empty($IP)) {
+            $geo = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip=$IP'));
+            $city = $geo["geoplugin_city"];
+            $Country = $geo["geoplugin_countryName"];
+            $country = $city .' '. $Country;
+        }
+        return $country;
     }
 
     public static function ip_detect()
