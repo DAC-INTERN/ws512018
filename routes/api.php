@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use App\Helper\String_Helper;
+use Phpml\Association\Apriori;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,3 +17,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/predict/{search}', function ($search){
+    $result = String_Helper::Predict_String($search);
+    return($result);
+
+});
+

@@ -1,10 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 use App\Http\Middleware\String_Middleware;
-use App\Helper\Predict_String;
+use App\Helper\String_Helper;
 use App\Url;
 use Illuminate\Http\Request;
-use App\Helper\String_Helper;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -12,9 +11,11 @@ use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('home.index');
+        $search = $request->input('s');
+        $predict = String_Helper::Predict_String($search);
+        return view('home.index')->with('search',$search)->with('predict',$predict);
     }
     public function search(Request $request)
     {
